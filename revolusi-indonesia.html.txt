@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revolusi Indonesia - Timeline Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .timeline-item {
+            transition: all 0.3s ease;
+        }
+        .timeline-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 1rem;
+            border-radius: 1rem;
+            max-width: 95%;
+            max-height: 95%;
+            overflow-y: auto;
+            position: relative;
+            margin: 1rem;
+        }
+        @media (min-width: 768px) {
+            .modal-content {
+                padding: 2rem;
+                max-width: 90%;
+                max-height: 90%;
+                margin: 0;
+            }
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="hero-bg text-white py-12 md:py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-5xl font-bold mb-4">🇮🇩 Revolusi Indonesia</h1>
+            <p class="text-lg md:text-xl opacity-90 px-2">Timeline Interaktif Perjuangan Kemerdekaan 1945-1949</p>
+            <div class="mt-6 md:mt-8">
+                <button onclick="scrollToTimeline()" class="bg-white text-red-600 px-6 md:px-8 py-2 md:py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors text-sm md:text-base">
+                    Jelajahi Timeline
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center flex-wrap gap-2 md:gap-4 py-3 md:py-4">
+                <button onclick="filterEvents('all')" class="filter-btn active px-3 md:px-4 py-2 rounded-lg font-medium transition-colors text-sm md:text-base">Semua</button>
+                <button onclick="filterEvents('pertempuran')" class="filter-btn px-3 md:px-4 py-2 rounded-lg font-medium transition-colors text-sm md:text-base">Pertempuran</button>
+                <button onclick="filterEvents('perjanjian')" class="filter-btn px-3 md:px-4 py-2 rounded-lg font-medium transition-colors text-sm md:text-base">Perjanjian</button>
+                <button onclick="filterEvents('agresi')" class="filter-btn px-3 md:px-4 py-2 rounded-lg font-medium transition-colors text-sm md:text-base">Agresi Militer</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Timeline -->
+    <main class="container mx-auto px-4 py-8 md:py-12" id="timeline">
+        <div class="text-center mb-8 md:mb-12">
+            <h2 class="text-2xl md:text-4xl font-bold text-gray-800 mb-4">Timeline Peristiwa</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base px-2">Klik pada setiap kartu untuk mempelajari detail peristiwa penting dalam Revolusi Indonesia</p>
+        </div>
+
+        <div class="grid gap-4 md:gap-6 lg:gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3" id="events-container">
+            <!-- Palagan Ambarawa -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer pertempuran" onclick="openModal('ambarawa')" data-date="1945-10">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-red-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">⚔️</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Palagan Ambarawa</h3>
+                        <p class="text-gray-500 text-sm md:text-base">Oktober-Desember 1945</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Pertempuran heroik di Ambarawa, Jawa Tengah melawan pasukan Sekutu dan NICA.</p>
+                <div class="mt-3 md:mt-4 text-red-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- Medan Area -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer pertempuran" onclick="openModal('medan')" data-date="1945-10">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-red-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">🔥</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Medan Area</h3>
+                        <p class="text-gray-500 text-sm md:text-base">Oktober 1945</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Pertempuran sengit di Medan antara pemuda Indonesia melawan pasukan Sekutu.</p>
+                <div class="mt-3 md:mt-4 text-red-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- Pertempuran Surabaya -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer pertempuran" onclick="openModal('surabaya')" data-date="1945-11">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-red-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">🦈</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Pertempuran Surabaya</h3>
+                        <p class="text-gray-500 text-sm md:text-base">10 November 1945</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Pertempuran heroik yang melahirkan Hari Pahlawan 10 November.</p>
+                <div class="mt-3 md:mt-4 text-red-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- Bandung Lautan Api -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer pertempuran" onclick="openModal('bandung')" data-date="1946-03">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-red-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">🔥</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Bandung Lautan Api</h3>
+                        <p class="text-gray-500 text-sm md:text-base">24 Maret 1946</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Pembakaran kota Bandung bagian selatan sebagai strategi bumi hangus.</p>
+                <div class="mt-3 md:mt-4 text-red-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- Puputan Margarana -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer pertempuran" onclick="openModal('margarana')" data-date="1946-11">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-red-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">🌺</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Puputan Margarana</h3>
+                        <p class="text-gray-500 text-sm md:text-base">20 November 1946</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Pertempuran terakhir I Gusti Ngurah Rai di Bali melawan Belanda.</p>
+                <div class="mt-3 md:mt-4 text-red-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- Perjanjian Linggarjati -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer perjanjian" onclick="openModal('linggarjati')" data-date="1946-11">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">📜</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Perjanjian Linggarjati</h3>
+                        <p class="text-gray-500 text-sm md:text-base">15 November 1946</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Perjanjian antara Indonesia dan Belanda dengan mediasi Inggris.</p>
+                <div class="mt-3 md:mt-4 text-blue-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- Agresi Militer I -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer agresi" onclick="openModal('agresi1')" data-date="1947-07">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-orange-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">💥</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Agresi Militer I</h3>
+                        <p class="text-gray-500 text-sm md:text-base">21 Juli 1947</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Serangan militer Belanda pertama yang melanggar Perjanjian Linggarjati.</p>
+                <div class="mt-3 md:mt-4 text-orange-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- Perjanjian Renville -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer perjanjian" onclick="openModal('renville')" data-date="1948-01">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">🚢</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Perjanjian Renville</h3>
+                        <p class="text-gray-500 text-sm md:text-base">17 Januari 1948</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Perjanjian di atas kapal USS Renville setelah Agresi Militer I.</p>
+                <div class="mt-3 md:mt-4 text-blue-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- Pemberontakan PKI Madiun -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer pertempuran" onclick="openModal('madiun')" data-date="1948-09">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-red-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">⚡</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Pemberontakan PKI Madiun</h3>
+                        <p class="text-gray-500 text-sm md:text-base">September 1948</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Pemberontakan komunis di Madiun yang mengancam persatuan nasional.</p>
+                <div class="mt-3 md:mt-4 text-red-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- Perjanjian Roem-Roijen -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer perjanjian" onclick="openModal('roem')" data-date="1949-05">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">🤝</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Perjanjian Roem-Roijen</h3>
+                        <p class="text-gray-500 text-sm md:text-base">7 Mei 1949</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Perjanjian yang membuka jalan menuju KMB dan pengakuan kedaulatan.</p>
+                <div class="mt-3 md:mt-4 text-blue-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- Agresi Militer II -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer agresi" onclick="openModal('agresi2')" data-date="1948-12">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-orange-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">💣</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Agresi Militer II</h3>
+                        <p class="text-gray-500 text-sm md:text-base">19 Desember 1948</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Serangan Belanda kedua yang berhasil menduduki Yogyakarta.</p>
+                <div class="mt-3 md:mt-4 text-orange-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- Serangan Umum 1 Maret -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer pertempuran" onclick="openModal('serangan')" data-date="1949-03">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-red-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">🎯</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Serangan Umum 1 Maret</h3>
+                        <p class="text-gray-500 text-sm md:text-base">1 Maret 1949</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Serangan balasan TNI untuk merebut kembali Yogyakarta dari Belanda.</p>
+                <div class="mt-3 md:mt-4 text-red-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+
+            <!-- KMB -->
+            <div class="timeline-item card-hover bg-white rounded-xl shadow-lg p-4 md:p-6 cursor-pointer perjanjian" onclick="openModal('kmb')" data-date="1949-08">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-green-100 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                        <span class="text-xl md:text-2xl">🏆</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">Konferensi Meja Bundar</h3>
+                        <p class="text-gray-500 text-sm md:text-base">23 Agustus - 2 November 1949</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Konferensi yang menghasilkan pengakuan kedaulatan Indonesia.</p>
+                <div class="mt-3 md:mt-4 text-green-600 font-medium text-sm md:text-base">Klik untuk detail →</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button onclick="closeModal()" class="absolute top-2 right-2 md:top-4 md:right-4 text-gray-500 hover:text-gray-700 text-2xl md:text-3xl w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full hover:bg-gray-100">&times;</button>
+            <div id="modal-body">
+                <!-- Content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 md:py-8 mt-12 md:mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-base md:text-lg mb-2">🇮🇩 Revolusi Indonesia 1945-1949</p>
+            <p class="text-gray-400 text-sm md:text-base">Mengenang perjuangan para pahlawan kemerdekaan</p>
+        </div>
+    </footer>
+
+    <script>
+        // Modal data
+        const modalData = {
+            ambarawa: {
+                title: "Palagan Ambarawa",
+                date: "Oktober - Desember 1945",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-red-600">⚔️ Palagan Ambarawa</h3>
+                    <div class="mb-6">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">Oktober - Desember 1945</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Latar Belakang:</strong> Pasukan Sekutu (Inggris) datang ke Indonesia dengan dalih melucuti tentara Jepang, namun membawa serta NICA (Netherlands Indies Civil Administration) untuk mengembalikan kekuasaan Belanda.</p>
+                        
+                        <p><strong>Tokoh Utama:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Letkol Isdiman - Komandan TKR</li>
+                            <li>Mayor Sumarto - Wakil Komandan</li>
+                            <li>Kolonel Sudirman - Panglima Besar TKR</li>
+                        </ul>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mt-4 border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Kronologi Peristiwa
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">20 Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Brigade 49 Inggris mendarat di Semarang dengan 3.000 personel. Pasukan bergerak ke Ambarawa untuk melucuti tentara Jepang, namun NICA (Belanda) ikut masuk bersama mereka dengan tujuan mengembalikan kekuasaan kolonial.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">21 Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">TKR Batalyon I/1 bergerak ke Ambarawa. Letkol Isdiman tiba dengan bala bantuan. Perundingan dengan Sekutu gagal karena mereka menolak mundur dan tetap membawa NICA.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">23 Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Pertempuran dimulai dengan serangan fajar TKR. Pertempuran sengit terjadi di sekitar stasiun kereta api. Sekutu meminta bantuan udara dari Semarang untuk menyerang posisi TKR.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Nov 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Pengepungan berlanjut dengan dukungan rakyat yang membantu logistik TKR. Kolonel Sudirman tiba untuk koordinasi. Serangan sporadis dilakukan untuk menguras tenaga Sekutu.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">12 Des 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Serangan besar-besaran dengan 2.000 pejuang TKR menyerang serentak dari 4 arah. Pertempuran jarak dekat di pusat kota. Sekutu mulai mundur ke arah Semarang.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">15 Des 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Kemenangan final TKR. Bendera Merah Putih dikibarkan di Ambarawa. Sekutu sepenuhnya mundur ke Semarang. Rakyat merayakan kemenangan di alun-alun kota.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Hasil:</strong> Kemenangan Indonesia yang memaksa pasukan Sekutu mundur ke Semarang. Ini menjadi bukti kemampuan militer Indonesia yang baru merdeka.</p>
+                        
+                        <div class="bg-yellow-50 p-4 rounded-lg mt-4">
+                            <p class="text-yellow-800"><strong>💡 Makna Penting:</strong> Palagan Ambarawa membuktikan bahwa rakyat Indonesia siap mempertahankan kemerdekaan dengan segala pengorbanan.</p>
+                        </div>
+                    </div>
+                `
+            },
+            medan: {
+                title: "Medan Area",
+                date: "Oktober 1945",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-red-600">🔥 Medan Area</h3>
+                    <div class="mb-6">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">Oktober 1945</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Latar Belakang:</strong> Kedatangan pasukan Sekutu di Medan menimbulkan ketegangan dengan pemuda Indonesia yang tidak ingin kembali dijajah Belanda.</p>
+                        
+                        <p><strong>Tokoh Penting:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Achmad Tahir - Pemimpin pemuda</li>
+                            <li>Dr. Mansyur - Residen Sumatera Timur</li>
+                        </ul>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mt-4 border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Kronologi Peristiwa
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">9 Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Tentara Inggris (tentara Sekutu) mendarat di Medan dan mendirikan markas utama di Hotel Dharma Deli. Kedatangan pasukan ini menandai dimulainya ketegangan dengan rakyat Indonesia yang baru merdeka.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">10 Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Sekutu menguasai kantor pos, telegraf, dan stasiun kereta api. Bendera Inggris dikibarkan di gedung-gedung penting, membuat pemuda Indonesia mulai geram melihat simbol penjajahan kembali berkibar di tanah air mereka.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">13 Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Insiden bersenjata terjadi di depan Hotel Dharma Deli antara tentara Belanda melawan pemuda Republik karena seorang pemuda Indonesia dipaksa menginjak dan menelan lencana merah putih. Insiden ini memicu kemarahan besar pemuda Indonesia.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">15 Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Hotel Dharma Deli diserbu para pemuda. Tentara Sekutu dan Belanda ditangkap dan terbunuh. Achmad Tahir memimpin serangan di Kesawan. Pertempuran di Jalan Asia dan Polonia, Sekutu menggunakan mortir dan tank ringan. Rakyat mulai mengungsi dari pusat kota. Pertempuran meluas ke seluruh kota Medan selama beberapa hari.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">21 Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Terjadi gencatan senjata. Tokoh masyarakat memediasi perundingan antara kedua belah pihak untuk menghentikan pertempuran yang telah berlangsung selama beberapa hari dengan korban jiwa yang tidak sedikit.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">1 Des 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Pasukan Sekutu memasang rambu-rambu bertuliskan "Fixed Boundaries Medan Area" sebagai batas wilayah antara Sekutu dengan Indonesia. Dari sinilah istilah "Medan Area" muncul dan menjadi nama resmi untuk konflik ini.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">10 Des 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Tentara Inggris dan Belanda bergerak keluar pusat kota Medan. Pertempuran-pertempuran mengelilingi kota Medan setelahnya hingga berhari-hari. Konflik berlanjut dengan intensitas tinggi di berbagai wilayah sekitar Medan.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Dampak:</strong> Meskipun mengalami kerugian besar, semangat perlawanan rakyat Medan menginspirasi daerah lain untuk tidak menyerah pada penjajah.</p>
+                        
+                        <div class="bg-yellow-50 p-4 rounded-lg mt-4">
+                            <p class="text-yellow-800"><strong>🎖️ Penghargaan:</strong> Medan mendapat gelar "Kota Perjuangan" atas kepahlawanan rakyatnya dalam mempertahankan kemerdekaan.</p>
+                        </div>
+                    </div>
+                `
+            },
+            surabaya: {
+                title: "Pertempuran Surabaya",
+                date: "10 November 1945",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-red-600">🦈 Pertempuran Surabaya</h3>
+                    <div class="mb-6">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">10 November 1945</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Latar Belakang:</strong> Insiden Hotel Yamato dimana bendera Belanda diturunkan dan dirobek bagian birunya, menyisakan merah putih.</p>
+                        
+                        <p><strong>Tokoh Heroik:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Bung Tomo - Penyemangat rakyat melalui radio</li>
+                            <li>Gubernur Suryo - Gubernur Jawa Timur</li>
+                            <li>Brigjen Mallaby - Komandan Inggris yang tewas</li>
+                        </ul>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mt-4 border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Kronologi Peristiwa
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">19 Sep 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Insiden Hotel Yamato. Sekelompok pemuda melihat bendera Belanda di hotel. Hariyono dan Kusno Wibowo memanjat tiang bendera, merobek bagian biru bendera Belanda, menyisakan merah putih. Bendera Merah Putih dikibarkan, berita menyebar ke seluruh kota.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">25 Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Kedatangan Sekutu. Kapal perang HMS Indomitable tiba di Tanjung Perak. Brigade 49 Inggris dengan 6.000 tentara Inggris dan India mendarat. Markas didirikan di Gedung Internatio. Patroli pertama keliling kota, ketegangan mulai terasa.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">27 Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Bentrokan pertama. Patroli Inggris mencoba masuk ke daerah TKR. Tembak-menembak di sekitar Jembatan Merah. TKR memblokir jalan-jalan utama. Pertempuran meluas ke Tunjungan dan Embong Malang. Gencatan senjata sementara untuk evakuasi korban.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">30 Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Tewasnya Brigjen Mallaby. Komandan Inggris keluar untuk inspeksi situasi. Mobil Mallaby tiba di sekitar Jembatan Merah, terjadi kesalahpahaman dengan pejuang Indonesia. Tembakan dari arah tidak diketahui, Brigjen Mallaby tewas. Inggris marah dan bersiap membalas.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">9 Nov 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Ultimatum Inggris. Pesawat menjatuhkan selebaran ultimatum: serahkan senjata sebelum jam 06.00 besok. Rapat darurat pemimpin Surabaya memutuskan menolak ultimatum. Bung Tomo mulai berpidato di radio. Rakyat bersiap menghadapi serangan.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">10 Nov 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Dimulainya pertempuran. Ultimatum berakhir, tidak ada yang menyerah. Kapal perang Inggris menembaki kota, pesawat tempur menyerang dari udara. Tank-tank masuk kota dari berbagai arah. Rakyat Surabaya melawan dengan senjata seadanya. Bung Tomo berteriak "Allahu Akbar!"</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-purple-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">10-20 Nov</div>
+                                        <p class="text-gray-700 leading-relaxed">10 hari pertempuran heroik. Hari 1-3: Pertempuran di pusat kota, rakyat bertahan. Hari 4-6: Inggris mulai menguasai beberapa wilayah. Hari 7-8: Perlawanan gerilya di gang-gang sempit. Hari 9-10: Evakuasi rakyat ke luar kota. Korban: 16.000 pejuang Indonesia, 2.000 tentara Inggris.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Semboyan Terkenal:</strong> "Merdeka atau Mati!" menjadi semangat yang mengobarkan perlawanan.</p>
+                        
+                        <div class="bg-orange-50 p-4 rounded-lg mt-4">
+                            <p class="text-orange-800"><strong>🏅 Warisan:</strong> 10 November ditetapkan sebagai Hari Pahlawan untuk mengenang heroisme rakyat Surabaya. Surabaya mendapat julukan "Kota Pahlawan".</p>
+                        </div>
+                    </div>
+                `
+            },
+            bandung: {
+                title: "Bandung Lautan Api",
+                date: "24 Maret 1946",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-red-600">🔥 Bandung Lautan Api</h3>
+                    <div class="mb-6">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">24 Maret 1946</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Latar Belakang:</strong> Sekutu menuntut TNI dan rakyat Indonesia mengosongkan Bandung bagian selatan dalam waktu 24 jam.</p>
+                        
+                        <p><strong>Tokoh Penting:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Mohammad Toha - Pejuang yang mengorbankan nyawa</li>
+                            <li>Abdul Haris Nasution - Komandan Divisi Siliwangi</li>
+                        </ul>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mt-4 border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Kronologi Peristiwa
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Okt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Kedatangan Sekutu. Pasukan Sekutu mendarat di Tanjung Priok, Jakarta. Brigade 23 India bergerak ke Bandung via Bogor. Tiba di pinggiran Bandung, disambut waspada TRI. Markas sementara didirikan di utara kota.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Nov 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Meningkatnya ketegangan. Patroli Sekutu mulai masuk ke dalam kota. TRI membangun barikade di jalan-jalan utama. Insiden kecil mulai terjadi. Sekutu menuntut kontrol penuh atas kota Bandung.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Jan-Mar 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Eskalasi konflik. Sekutu semakin agresif menuntut wilayah. Perundingan gagal, kedua belah pihak keras kepala. Sekutu mempersiapkan operasi besar. Intelijen melaporkan rencana pendudukan total Bandung.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">23 Mar 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Ultimatum Sekutu. Sekutu menyampaikan ultimatum resmi: kosongkan Bandung Selatan dalam 24 jam. Rapat darurat pemimpin TRI dan sipil memutuskan menolak ultimatum. Mulai menyusun rencana bumi hangus dan koordinasi dengan tokoh masyarakat.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">24 Mar Pagi</div>
+                                        <p class="text-gray-700 leading-relaxed">Persiapan terakhir. Rapat koordinasi terakhir di Gedung Sate. Pembagian tugas pembakaran per wilayah. Distribusi bahan bakar dan pemantik. Evakuasi dokumen penting dimulai. Peringatan kepada warga untuk bersiap mengungsi.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-600">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">24 Mar Sore</div>
+                                        <p class="text-gray-700 leading-relaxed">Bandung Lautan Api. Ultimatum berakhir, sinyal pembakaran diberikan. Pembakaran serentak di 200+ lokasi. Api menyebar ke seluruh Bandung Selatan. Pabrik-pabrik strategis dibakar. Gudang senjata dan amunisi diledakkan. Kota bagian selatan menjadi lautan api.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-purple-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">24 Mar Malam</div>
+                                        <p class="text-gray-700 leading-relaxed">Pengorbanan Mohammad Toha. Mendapat tugas membakar gudang amunisi di Dayeuhkolot. Menyalakan sumbu peledak dan gugur dalam ledakan dahsyat. Ledakan terdengar hingga radius 10 km. Seluruh gudang amunisi musnah.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-gray-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-gray-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">25 Mar 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Eksodus besar-besaran. 200.000 penduduk mengungsi menuju Lembang dan Cimahi. Sekutu masuk ke kota yang sudah hangus. 60% Bandung Selatan rata dengan tanah. Sekutu terkejut dengan kehancuran total. Lagu "Halo-Halo Bandung" mulai dinyanyikan pengungsi.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Lagu Kenangan:</strong> Peristiwa ini diabadikan dalam lagu "Halo-Halo Bandung" yang menceritakan kesedihan berpisah dengan kota tercinta.</p>
+                        
+                        <div class="bg-red-50 p-4 rounded-lg mt-4">
+                            <p class="text-red-800"><strong>💔 Pengorbanan:</strong> Bandung Lautan Api menunjukkan pengorbanan luar biasa rakyat Indonesia yang rela kehilangan harta benda demi mempertahankan kemerdekaan.</p>
+                        </div>
+                    </div>
+                `
+            },
+            margarana: {
+                title: "Puputan Margarana",
+                date: "20 November 1946",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-red-600">🌺 Puputan Margarana</h3>
+                    <div class="mb-6">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">20 November 1946</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Latar Belakang:</strong> Belanda melakukan operasi militer untuk menguasai kembali Bali setelah kemerdekaan Indonesia.</p>
+                        
+                        <p><strong>Tokoh Utama:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>I Gusti Ngurah Rai - Komandan Ciung Wanara</li>
+                            <li>I Gusti Made Kusuma - Wakil komandan</li>
+                            <li>96 prajurit Ciung Wanara lainnya</li>
+                        </ul>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mt-4 border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Kronologi Peristiwa
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">17 Agt 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Proklamasi kemerdekaan Indonesia. Berita kemerdekaan sampai ke Bali melalui radio. I Gusti Ngurah Rai yang saat itu menjadi Komandan PETA di Tabanan langsung menyatakan dukungan kepada Republik Indonesia.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Sep 1945</div>
+                                        <p class="text-gray-700 leading-relaxed">Pembentukan Tentara Keamanan Rakyat (TKR) Bali. I Gusti Ngurah Rai diangkat sebagai Komandan TKR Bali dengan pangkat Letkol. Pasukan diberi nama "Ciung Wanara" yang berarti "Burung Kera" dalam bahasa Bali.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Mar 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Belanda mendarat di Sanur dengan kekuatan Brigade T. Pasukan Belanda langsung bergerak menguasai Denpasar dan kota-kota penting lainnya. Ngurah Rai memutuskan untuk tidak melawan secara frontal melainkan menggunakan taktik gerilya.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Apr-Okt 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Perang gerilya berlangsung selama 7 bulan. Pasukan Ciung Wanara melakukan serangan-serangan kilat terhadap pos-pos Belanda. Belanda kesulitan mengatasi taktik gerilya ini dan mulai frustrasi dengan perlawanan yang terus berlanjut.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Nov 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Belanda melakukan operasi besar-besaran untuk mengepung pasukan Ciung Wanara. Dengan bantuan mata-mata lokal, Belanda berhasil melacak keberadaan markas Ngurah Rai di daerah Tabanan. Pengepungan semakin ketat dari hari ke hari.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">18 Nov 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Belanda mengirim utusan untuk menawarkan penyerahan diri dengan jaminan keselamatan. Ngurah Rai menolak tegas tawaran tersebut. "Kami lebih baik mati daripada menyerah kepada penjajah," kata Ngurah Rai kepada utusannya.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-600">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">20 Nov Pagi</div>
+                                        <p class="text-gray-700 leading-relaxed">Pertempuran terakhir dimulai di Desa Marga, Tabanan. Pasukan Ciung Wanara yang hanya berjumlah 96 orang menghadapi pasukan Belanda yang berjumlah ribuan dengan persenjataan lengkap. Ngurah Rai memberikan pidato terakhir kepada anak buahnya.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-600">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">20 Nov Siang</div>
+                                        <p class="text-gray-700 leading-relaxed">Pertempuran semakin sengit. Pasukan Ciung Wanara bertahan dengan gagah berani meski terus terdesak. Satu per satu prajurit gugur dalam pertempuran yang tidak seimbang ini. Ngurah Rai terus memimpin dari garis depan.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-purple-600">
+                                    <div class="flex items-start">
+                                        <div class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">20 Nov Sore</div>
+                                        <p class="text-gray-700 leading-relaxed">Puputan Margarana berakhir. Seluruh 96 prajurit Ciung Wanara termasuk I Gusti Ngurah Rai gugur dalam pertempuran heroik ini. Tidak ada yang menyerah atau melarikan diri. Mereka memilih mati terhormat sebagai pahlawan kemerdekaan.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Makna Puputan:</strong> Dalam budaya Bali, puputan berarti pertempuran sampai titik darah penghabisan, lebih memilih mati terhormat daripada hidup terhina.</p>
+                        
+                        <div class="bg-purple-50 p-4 rounded-lg mt-4">
+                            <p class="text-purple-800"><strong>🏛️ Penghormatan:</strong> Bandara Ngurah Rai di Bali dinamai untuk menghormati kepahlawanan I Gusti Ngurah Rai. Puputan Margarana menjadi simbol kepahlawanan dan kesetiaan pada tanah air.</p>
+                        </div>
+                    </div>
+                `
+            },
+            linggarjati: {
+                title: "Perjanjian Linggarjati",
+                date: "15 November 1946",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-blue-600">📜 Perjanjian Linggarjati</h3>
+                    <div class="mb-6">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">15 November 1946</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Lokasi:</strong> Desa Linggarjati, Kuningan, Jawa Barat</p>
+                        
+                        <p><strong>Pihak yang Terlibat:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Indonesia: Sutan Sjahrir (Perdana Menteri)</li>
+                            <li>Belanda: Prof. Schermerhorn</li>
+                            <li>Mediator: Lord Killearn (Inggris)</li>
+                        </ul>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mt-4 border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Kronologi Peristiwa
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Feb 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Inggris mulai memfasilitasi perundingan Indonesia-Belanda. Lord Killearn ditunjuk sebagai mediator. Inggris ingin segera menyelesaikan konflik karena biaya operasi militer di Indonesia sangat besar dan mendapat kritik dari dalam negeri.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">10 Feb 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Pertemuan pertama di Jakarta antara delegasi Indonesia yang dipimpin Sutan Sjahrir dengan delegasi Belanda pimpinan Prof. Schermerhorn. Perbedaan pandangan sangat mendasar: Indonesia menginginkan pengakuan penuh, Belanda hanya mau mengakui secara terbatas.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Apr 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Perundingan berlanjut di Jakarta namun mengalami jalan buntu. Belanda menolak mengakui kedaulatan RI atas seluruh wilayah Indonesia. Indonesia menolak konsep federasi yang diusulkan Belanda. Ketegangan meningkat di lapangan.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Okt 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Perundingan dipindahkan ke Linggarjati, Kuningan, Jawa Barat. Suasana yang lebih tenang di pegunungan diharapkan dapat membantu tercapainya kesepakatan. Lord Killearn intensif memediasi kedua belah pihak.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">15 Nov 1946</div>
+                                        <p class="text-gray-700 leading-relaxed">Penandatanganan Perjanjian Linggarjati. Setelah negosiasi alot, kedua pihak mencapai kompromi. Indonesia menerima pengakuan de facto atas Jawa, Madura, dan Sumatera. Belanda menerima konsep Negara Indonesia Serikat dengan RI sebagai bagiannya.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-purple-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Des 1946-Mar 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">Proses ratifikasi berlangsung sulit. Di Indonesia, banyak pihak menolak perjanjian karena dianggap merugikan. Di Belanda, parlemen juga ragu-ragu. Interpretasi yang berbeda mulai muncul tentang isi perjanjian.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">25 Mar 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">Ratifikasi perjanjian oleh parlemen Indonesia dan Belanda. Meski banyak kritik, kedua parlemen akhirnya menyetujui. Harapan perdamaian mulai tumbuh, namun implementasi di lapangan masih bermasalah.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">21 Jul 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">Belanda melanggar perjanjian dengan melancarkan Agresi Militer I. Operasi "Produk" dimulai dengan dalih mengembalikan keamanan dan ketertiban. Perjanjian Linggarjati secara de facto berakhir dengan pelanggaran sepihak ini.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Isi Perjanjian:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Belanda mengakui RI secara de facto atas Jawa, Madura, dan Sumatera</li>
+                            <li>Belanda dan RI akan membentuk Negara Indonesia Serikat (RIS)</li>
+                            <li>RIS dan Belanda akan membentuk Uni Indonesia-Belanda</li>
+                        </ul>
+                        
+                        <div class="bg-yellow-50 p-4 rounded-lg mt-4">
+                            <p class="text-yellow-800"><strong>⚖️ Pelajaran:</strong> Perjanjian Linggarjati mengajarkan pentingnya kehati-hatian dalam diplomasi dan bahwa perjanjian harus didasari itikad baik dari semua pihak.</p>
+                        </div>
+                    </div>
+                `
+            },
+            agresi1: {
+                title: "Agresi Militer I",
+                date: "21 Juli 1947",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-orange-600">💥 Agresi Militer I</h3>
+                    <div class="mb-6">
+                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">21 Juli 1947</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Latar Belakang:</strong> Belanda melanggar Perjanjian Linggarjati dengan dalih "Operasi Produk" untuk menguasai daerah-daerah ekonomi penting.</p>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mt-4 border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Kronologi Peristiwa
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Jun 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">Ketegangan meningkat antara Indonesia dan Belanda. Belanda menuduh Indonesia melanggar Perjanjian Linggarjati dengan melakukan aksi gerilya. Indonesia menuduh Belanda tidak menghormati kedaulatan RI. Perundingan untuk menyelesaikan sengketa gagal.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">20 Jul 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">Belanda memberikan ultimatum terakhir kepada Indonesia. Isi ultimatum: Indonesia harus menghentikan semua aksi gerilya, menarik mundur pasukan dari daerah-daerah tertentu, dan menerima pengawasan Belanda. Indonesia menolak ultimatum ini karena dianggap melanggar kedaulatan.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">21 Jul Pagi</div>
+                                        <p class="text-gray-700 leading-relaxed">"Operasi Produk" dimulai serentak di seluruh Jawa dan Sumatera. Pasukan Belanda menyerang dari berbagai arah dengan dukungan pesawat tempur dan kapal perang. Target utama: pelabuhan, bandara, kota-kota besar, dan daerah perkebunan yang strategis secara ekonomi.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">21 Jul Siang</div>
+                                        <p class="text-gray-700 leading-relaxed">Serangan udara intensif terhadap posisi TNI. Belanda berhasil menguasai Bandara Maguwo (Yogyakarta), Pelabuhan Cirebon, dan beberapa kota penting di Jawa Barat. TNI melakukan perlawanan sengit namun terpaksa mundur karena perbedaan kekuatan yang sangat besar.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">22-25 Jul</div>
+                                        <p class="text-gray-700 leading-relaxed">Belanda berhasil menguasai kota-kota besar dan pelabuhan strategis. Di Jawa: Cirebon, Tegal, Pekalongan, Semarang, Malang, Kediri. Di Sumatera: Medan, Palembang, Padang. TNI beralih ke taktik gerilya dan mundur ke pedalaman. Ribuan korban jiwa dari kedua belah pihak.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">30 Jul 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">India dan Australia mengajukan masalah Indonesia ke Dewan Keamanan PBB. Kedua negara mengecam agresi Belanda dan meminta PBB untuk turun tangan. Dunia internasional mulai memperhatikan konflik Indonesia-Belanda dengan serius.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">1 Agt 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">Dewan Keamanan PBB mengeluarkan resolusi gencatan senjata. PBB mendesak kedua belah pihak untuk menghentikan permusuhan dan kembali ke meja perundingan. Tekanan internasional yang kuat memaksa Belanda untuk mempertimbangkan gencatan senjata.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">4 Agt 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">Gencatan senjata mulai berlaku. Garis Van Mook ditetapkan sebagai batas wilayah yang dikuasai masing-masing pihak. Belanda berhasil menguasai daerah-daerah kaya sumber daya, sementara Indonesia mempertahankan wilayah pedalaman. Kerugian besar bagi Indonesia secara teritorial dan ekonomi.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Target Serangan:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Jawa Barat: Cirebon, Tegal</li>
+                            <li>Jawa Tengah: Pekalongan, Semarang</li>
+                            <li>Jawa Timur: Malang, Kediri</li>
+                            <li>Sumatera: Medan, Palembang, Padang</li>
+                        </ul>
+                        
+                        <div class="bg-red-50 p-4 rounded-lg mt-4">
+                            <p class="text-red-800"><strong>🌍 Dampak:</strong> Agresi ini membuat dunia internasional mulai memperhatikan konflik Indonesia-Belanda dan memberikan dukungan moral kepada Indonesia.</p>
+                        </div>
+                    </div>
+                `
+            },
+            renville: {
+                title: "Perjanjian Renville",
+                date: "17 Januari 1948",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-blue-600">🚢 Perjanjian Renville</h3>
+                    <div class="mb-6">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">17 Januari 1948</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Lokasi:</strong> Di atas kapal USS Renville milik Amerika Serikat yang berlabuh di Jakarta</p>
+                        
+                        <p><strong>Anggota KTN:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Australia (dipilih Indonesia): Richard Kirby</li>
+                            <li>Belgia (dipilih Belanda): Paul van Zeeland</li>
+                            <li>Amerika Serikat (netral): Frank Graham</li>
+                        </ul>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mt-4 border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Kronologi Peristiwa
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">25 Agt 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">PBB membentuk Komisi Tiga Negara (KTN) untuk memediasi konflik Indonesia-Belanda. Australia dipilih Indonesia, Belgia dipilih Belanda, dan Amerika Serikat sebagai pihak netral. Pembentukan KTN menunjukkan pengakuan internasional terhadap Indonesia sebagai pihak yang sah dalam konflik.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">27 Okt 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">KTN tiba di Jakarta dan mulai menjalankan tugasnya. Komisi melakukan investigasi lapangan untuk memahami situasi sebenarnya. Mereka mengunjungi daerah-daerah konflik dan bertemu dengan para pemimpin dari kedua belah pihak untuk mendengar aspirasi masing-masing.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Nov 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">Perundingan dimulai di Jakarta namun mengalami jalan buntu. Perbedaan pandangan sangat mendasar: Indonesia menginginkan pengakuan kedaulatan penuh, sementara Belanda tetap pada konsep federasi dengan dominasi Belanda. Suasana perundingan sangat tegang dan sering deadlock.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">8 Des 1947</div>
+                                        <p class="text-gray-700 leading-relaxed">Perundingan dipindahkan ke kapal USS Renville milik Amerika Serikat yang berlabuh di Teluk Jakarta. Pemindahan ini dimaksudkan untuk menciptakan suasana netral dan menjauhkan dari tekanan politik di darat. Kapal menjadi "wilayah netral" untuk perundingan.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-purple-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Des 1947-Jan 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Perundingan intensif di atas kapal. Delegasi Indonesia dipimpin Amir Sjarifuddin, delegasi Belanda dipimpin R. Abdulkadir Widjojoatmodjo. Amerika Serikat memberikan tekanan halus kepada kedua pihak untuk mencapai kesepakatan. Negosiasi berlangsung alot dengan banyak kompromi yang menyakitkan.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">17 Jan 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Penandatanganan Perjanjian Renville. Meski sangat merugikan Indonesia, perjanjian ditandatangani karena tekanan internasional dan kondisi militer yang tidak menguntungkan. Indonesia terpaksa menerima garis demarkasi Van Mook dan konsep Negara Indonesia Serikat.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">28 Jan 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Kabinet Amir Sjarifuddin jatuh karena menandatangani perjanjian yang sangat merugikan. Parlemen dan rakyat Indonesia mengecam keras perjanjian ini. Amir Sjarifuddin dianggap terlalu lemah dalam bernegosiasi dan menyerahkan terlalu banyak kepentingan Indonesia.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Feb-Mar 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Penarikan mundur TNI dari daerah-daerah yang dikuasai sesuai perjanjian. Proses ini sangat menyakitkan karena TNI harus meninggalkan wilayah yang telah dipertahankan dengan darah. Banyak prajurit dan rakyat yang merasa dikhianati oleh perjanjian ini. Wilayah RI menjadi semakin sempit.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Isi Perjanjian:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Gencatan senjata dan penarikan mundur TNI</li>
+                            <li>Pembentukan garis demarkasi Van Mook</li>
+                            <li>Belanda tetap menguasai daerah yang telah diduduki</li>
+                            <li>Akan dibentuk Negara Indonesia Serikat</li>
+                        </ul>
+                        
+                        <div class="bg-red-50 p-4 rounded-lg mt-4">
+                            <p class="text-red-800"><strong>😔 Kerugian:</strong> Perjanjian ini sangat merugikan Indonesia karena wilayah RI menjadi semakin sempit dan Belanda semakin kuat.</p>
+                        </div>
+                    </div>
+                `
+            },
+            madiun: {
+                title: "Pemberontakan PKI Madiun",
+                date: "September 1948",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-red-600">⚡ Pemberontakan PKI Madiun</h3>
+                    <div class="mb-6">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">September 1948</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Latar Belakang:</strong> Ketidakpuasan PKI terhadap Perjanjian Renville dan keinginan untuk mengambil alih kekuasaan dari pemerintah RI.</p>
+                        
+                        <p><strong>Tokoh Utama Pemberontak:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Musso - Pemimpin PKI yang baru kembali dari Moskow</li>
+                            <li>Amir Sjarifuddin - Mantan PM yang bergabung dengan PKI</li>
+                            <li>Suripno - Aktivis PKI</li>
+                        </ul>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mt-4 border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Kronologi Peristiwa
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Jan 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Ketidakpuasan terhadap Perjanjian Renville. PKI dan Front Demokrasi Rakyat (FDR) mengecam keras perjanjian yang merugikan Indonesia. Amir Sjarifuddin yang menandatangani perjanjian mendapat kritik keras dari berbagai pihak termasuk dari dalam kabinet sendiri.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">28 Jan 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Jatuhnya Kabinet Amir Sjarifuddin. Parlemen menolak pertanggungjawaban kabinet atas Perjanjian Renville. Amir Sjarifuddin mengundurkan diri dan digantikan oleh Mohammad Hatta. Amir mulai bergerak ke oposisi dan mendekat ke PKI.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Feb-Jun 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Pembentukan Front Demokrasi Rakyat (FDR). Amir Sjarifuddin membentuk FDR sebagai oposisi terhadap pemerintah Hatta. FDR mulai melakukan agitasi dan propaganda anti-pemerintah. Hubungan dengan PKI semakin erat.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">11 Agt 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Kedatangan Musso dari Moskow. Setelah 12 tahun di Uni Soviet, Musso kembali ke Indonesia dengan dukungan penuh dari Moskow. Ia langsung mengambil alih kepemimpinan PKI dan mulai menyusun strategi untuk merebut kekuasaan.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">26 Agt 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Konferensi PKI di Yogyakarta. Musso secara resmi mengambil alih kepemimpinan PKI. FDR dibubarkan dan anggotanya bergabung dengan PKI. Amir Sjarifuddin secara terbuka menyatakan diri sebagai anggota PKI. Strategi "Jalan Baru" diumumkan.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Sep Awal 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Infiltrasi ke TNI dan kepolisian. PKI mulai melakukan infiltrasi ke dalam TNI, terutama di Divisi Siliwangi yang sedang hijrah. Beberapa perwira dan prajurit mulai terpengaruh ideologi komunis. Ketegangan internal TNI meningkat.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">18 Sep 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Pemberontakan dimulai di Madiun. PKI menguasai kota Madiun dengan bantuan sebagian anggota TNI yang terpengaruh. Kantor pos, telegraf, dan stasiun radio dikuasai. Pejabat pemerintah RI ditangkap atau dibunuh. Kekacauan mulai menyebar ke kota-kota sekitar.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-600">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">19 Sep Pagi</div>
+                                        <p class="text-gray-700 leading-relaxed">Proklamasi "Republik Soviet Indonesia". Musso memproklamasikan berdirinya Republik Soviet Indonesia dengan dirinya sebagai presiden. Amir Sjarifuddin diangkat sebagai Perdana Menteri. Bendera merah dengan palu arit dikibarkan di Madiun.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-purple-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">19 Sep Sore</div>
+                                        <p class="text-gray-700 leading-relaxed">Pidato bersejarah Soekarno. Dari Radio Republik Indonesia Yogyakarta, Soekarno berpidato dengan tegas: "Saudara-saudara, sekarang jelas sudah! Antara Republik Indonesia yang dipimpin oleh Soekarno-Hatta atau Republik Soviet yang dipimpin oleh Musso. Pilihlah!"</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">20 Sep 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Operasi penumpasan dimulai. Kolonel Gatot Subroto memimpin operasi militer untuk menumpas pemberontakan. Pasukan TNI bergerak dari Yogyakarta menuju Madiun. Pertempuran sengit terjadi di sepanjang jalan menuju Madiun.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">21-29 Sep</div>
+                                        <p class="text-gray-700 leading-relaxed">Pertempuran berlangsung sengit. PKI melakukan perlawanan dengan bantuan sebagian TNI yang memberontak. Pertempuran terjadi di Madiun, Ponorogo, Pacitan, dan Magetan. TNI loyal berhasil memukul mundur pemberontak step by step.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">30 Sep 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Madiun direbut kembali. TNI berhasil menguasai kembali kota Madiun. Musso tewas dalam pertempuran di Desa Niten, Ponorogo saat mencoba melarikan diri. Bendera Merah Putih kembali dikibarkan di Madiun. Pemberontakan mulai runtuh.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Okt-Nov 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Pembersihan sisa-sisa pemberontakan. Operasi pembersihan dilakukan di seluruh Jawa Timur. Ribuan anggota PKI ditangkap. Amir Sjarifuddin berhasil melarikan diri ke hutan bersama sisa-sisa pengikutnya.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-gray-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-gray-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Des 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Penangkapan dan eksekusi Amir Sjarifuddin. Setelah berbulan-bulan bersembunyi, Amir Sjarifuddin akhirnya ditangkap di hutan Jawa Timur. Ia diadili oleh pengadilan militer dan dieksekusi karena pengkhianatan terhadap negara.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg mt-4">
+                            <p class="text-green-800"><strong>✅ Dampak Positif:</strong> Keberhasilan menumpas pemberontakan ini meningkatkan kredibilitas Indonesia di mata dunia internasional, terutama Amerika Serikat yang anti-komunis.</p>
+                        </div>
+                    </div>
+                `
+            },
+            roem: {
+                title: "Perjanjian Roem-Roijen",
+                date: "7 Mei 1949",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-blue-600">🤝 Perjanjian Roem-Roijen</h3>
+                    <div class="mb-6">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">7 Mei 1949</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Latar Belakang:</strong> Tekanan internasional yang semakin kuat terhadap Belanda setelah Agresi Militer II membuat Belanda harus bernegosiasi.</p>
+                        
+                        <p><strong>Negosiator:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Indonesia: Mohammad Roem (Menteri Luar Negeri)</li>
+                            <li>Belanda: Herman van Roijen (Ketua Komisi Tinggi Belanda)</li>
+                        </ul>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg mt-4">
+                            <h4 class="font-bold text-blue-800 mb-3">📅 Kronologi Peristiwa:</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">Jan 1949:</span>
+                                    <span>DK PBB mengeluarkan resolusi mengecam Agresi Militer II</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">Mar 1949:</span>
+                                    <span>Serangan Umum 1 Maret meningkatkan posisi tawar Indonesia</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">Apr 1949:</span>
+                                    <span>Perundingan awal dimulai di Jakarta</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">7 Mei 1949:</span>
+                                    <span>Penandatanganan Perjanjian Roem-Roijen</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">6 Jul 1949:</span>
+                                    <span>Soekarno-Hatta kembali ke Yogyakarta</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">Agt 1949:</span>
+                                    <span>Persiapan Konferensi Meja Bundar dimulai</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Isi Perjanjian:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Penghentian operasi militer dan gerilya</li>
+                            <li>Pembebasan tahanan politik termasuk Soekarno-Hatta</li>
+                            <li>RI kembali ke Yogyakarta</li>
+                            <li>Partisipasi RI dalam Konferensi Meja Bundar</li>
+                        </ul>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg mt-4">
+                            <p class="text-green-800"><strong>🎯 Keberhasilan:</strong> Perjanjian ini menunjukkan kematangan diplomasi Indonesia dan menjadi langkah penting menuju pengakuan kedaulatan penuh.</p>
+                        </div>
+                    </div>
+                `
+            },
+            agresi2: {
+                title: "Agresi Militer II",
+                date: "19 Desember 1948",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-orange-600">💣 Agresi Militer II</h3>
+                    <div class="mb-6">
+                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">19 Desember 1948</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Nama Operasi:</strong> "Operasi Gagak" (Operatie Kraai) oleh Belanda</p>
+                        
+                        <p><strong>Latar Belakang:</strong> Belanda frustrasi dengan perlawanan gerilya Indonesia dan ingin menyelesaikan konflik dengan kekuatan militer.</p>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mt-4 border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Kronologi Peristiwa
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Nov 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Meningkatnya ketegangan setelah Pemberontakan PKI Madiun. Belanda menuduh Indonesia tidak mampu menjaga keamanan dan ketertiban. Belanda mulai mempersiapkan operasi militer besar-besaran dengan dalih "memulihkan keamanan".</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">Des Awal 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Persiapan "Operasi Gagak". Belanda mengumpulkan 150.000 tentara dengan persenjataan modern. Kapal perang, pesawat tempur, dan tank disiapkan. Target utama: menguasai Yogyakarta dan menangkap para pemimpin RI.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">18 Des 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Ultimatum terakhir Belanda. Belanda menuntut Indonesia menghentikan semua aktivitas gerilya, menyerahkan senjata, dan menerima pengawasan Belanda. Batas waktu: 19 Desember pukul 06.00. Pemerintah RI menolak ultimatum ini.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-600">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">19 Des 05.30</div>
+                                        <p class="text-gray-700 leading-relaxed">Operasi Gagak dimulai. Serangan udara masif terhadap Bandara Maguwo, Yogyakarta. 50 pesawat tempur Belanda mengebom landasan pacu dan hanggar. Komunikasi radio TNI terputus. Serangan serentak juga dilakukan di Sumatera.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-600">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">19 Des 06.00</div>
+                                        <p class="text-gray-700 leading-relaxed">Pendaratan pasukan payung di Maguwo. 2 batalyon pasukan payung Belanda mendarat di bandara yang sudah dibom. Mereka langsung bergerak menuju pusat kota Yogyakarta. Perlawanan TNI sangat terbatas karena kejutan serangan.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-600">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">19 Des 08.00</div>
+                                        <p class="text-gray-700 leading-relaxed">Serangan darat dari berbagai arah. Pasukan Belanda menyerang Yogyakarta dari utara (via Magelang), selatan (via Bantul), dan timur (via Klaten). Tank-tank Belanda mulai memasuki kota. TNI melakukan perlawanan sporadis sambil mundur.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-600">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">19 Des 11.00</div>
+                                        <p class="text-gray-700 leading-relaxed">Pengepungan Istana Gedung Agung. Pasukan Belanda mengepung istana tempat Soekarno, Hatta, dan para menteri berada. Terjadi negosiasi singkat. Para pemimpin RI memutuskan tidak melarikan diri untuk menghindari korban sipil yang lebih besar.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-purple-600">
+                                    <div class="flex items-start">
+                                        <div class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">19 Des 16.00</div>
+                                        <p class="text-gray-700 leading-relaxed">Penangkapan para pemimpin RI. Soekarno, Mohammad Hatta, Sutan Sjahrir, dan beberapa menteri ditangkap di Istana Gedung Agung. Mereka dibawa ke markas Belanda untuk interogasi. Belanda mengklaim telah "membebaskan" para pemimpin dari "pengaruh ekstremis".</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">20 Des 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Pengasingan ke Pulau Bangka. Para pemimpin RI dibawa dengan pesawat militer ke Pulau Bangka. Mereka ditempatkan di bekas rumah tahanan Jepang. Belanda berharap dengan ditangkapnya para pemimpin, perlawanan Indonesia akan berhenti.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">22 Des 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Pembentukan PDRI di Bukittinggi. Sjafruddin Prawiranegara yang berada di Sumatera membentuk Pemerintahan Darurat Republik Indonesia (PDRI). PDRI menjadi pemerintahan sah RI selama para pemimpin ditawan. Perlawanan terus berlanjut.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">24 Des 1948</div>
+                                        <p class="text-gray-700 leading-relaxed">Reaksi internasional. Dewan Keamanan PBB mengecam keras agresi Belanda. India, Australia, dan negara-negara Asia-Afrika mengutuk tindakan Belanda. Amerika Serikat mengancam akan menghentikan bantuan Marshall Plan untuk Belanda.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">28 Jan 1949</div>
+                                        <p class="text-gray-700 leading-relaxed">Resolusi DK PBB. Dewan Keamanan PBB mengeluarkan resolusi yang menuntut: pembebasan para pemimpin RI, penarikan pasukan Belanda ke posisi sebelum 18 Desember, dan dimulainya perundingan untuk penyelesaian damai. Tekanan internasional semakin kuat.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4 mt-1 min-w-max">1 Mar 1949</div>
+                                        <p class="text-gray-700 leading-relaxed">Serangan Umum 1 Maret. TNI melancarkan serangan balasan yang membuktikan bahwa Indonesia masih kuat. Serangan ini mengejutkan dunia dan memaksa Belanda untuk kembali ke meja perundingan. Posisi tawar Indonesia menguat secara signifikan.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Target Utama:</strong> Yogyakarta sebagai ibu kota RI dan penangkapan para pemimpin Indonesia.</p>
+                        
+                        <p><strong>Pemerintahan Darurat:</strong> Sjafruddin Prawiranegara membentuk Pemerintahan Darurat Republik Indonesia (PDRI) di Bukittinggi, Sumatera Barat.</p>
+                        
+                        <div class="bg-red-50 p-4 rounded-lg mt-4">
+                            <p class="text-red-800"><strong>🔄 Ironi:</strong> Agresi ini justru memperkuat posisi Indonesia di mata internasional dan mempercepat proses pengakuan kedaulatan.</p>
+                        </div>
+                    </div>
+                `
+            },
+            serangan: {
+                title: "Serangan Umum 1 Maret",
+                date: "1 Maret 1949",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-red-600">🎯 Serangan Umum 1 Maret</h3>
+                    <div class="mb-6">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">1 Maret 1949</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Latar Belakang:</strong> Setelah Agresi Militer II, Belanda mengklaim telah menguasai seluruh Indonesia dan TNI sudah tidak ada.</p>
+                        
+                        <p><strong>Komando Operasi:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Letkol Suharto - Komandan Serangan</li>
+                            <li>Sultan Hamengku Buwono IX - Koordinator</li>
+                            <li>Sri Paku Alam VIII - Dukungan logistik</li>
+                        </ul>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg mt-4">
+                            <h4 class="font-bold text-blue-800 mb-3">📅 Kronologi Peristiwa:</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">Feb 1949:</span>
+                                    <span>Perencanaan serangan dimulai, koordinasi dengan Sultan</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">28 Feb 1949:</span>
+                                    <span>Persiapan terakhir, pasukan bergerak ke posisi</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">1 Mar 1949:</span>
+                                    <span>06.00: Serangan dimulai dari berbagai arah</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">1 Mar 1949:</span>
+                                    <span>07.00: TNI berhasil menguasai Gedung Agung</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">1 Mar 1949:</span>
+                                    <span>08.00: Bendera Merah Putih dikibarkan di kantor pos</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">1 Mar 1949:</span>
+                                    <span>12.00: TNI mundur sesuai rencana setelah 6 jam</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">2 Mar 1949:</span>
+                                    <span>Dunia internasional memberitakan keberhasilan serangan</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Tujuan Serangan:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Membuktikan TNI masih ada dan kuat</li>
+                            <li>Menunjukkan kepada dunia bahwa RI masih berdaulat</li>
+                            <li>Meningkatkan moral rakyat Indonesia</li>
+                        </ul>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg mt-4">
+                            <p class="text-green-800"><strong>🏆 Keberhasilan:</strong> Serangan ini menjadi faktor penting yang mempercepat perundingan dan pengakuan kedaulatan Indonesia.</p>
+                        </div>
+                    </div>
+                `
+            },
+            kmb: {
+                title: "Konferensi Meja Bundar",
+                date: "23 Agustus - 2 November 1949",
+                content: `
+                    <h3 class="text-2xl font-bold mb-4 text-green-600">🏆 Konferensi Meja Bundar</h3>
+                    <div class="mb-6">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">23 Agustus - 2 November 1949</span>
+                    </div>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong>Lokasi:</strong> Den Haag, Belanda</p>
+                        
+                        <p><strong>Peserta Konferensi:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Republik Indonesia: Mohammad Hatta (Ketua)</li>
+                            <li>Belanda: Mr. Van Maarseveen</li>
+                            <li>BFO (Bijeenkomst voor Federal Overleg)</li>
+                            <li>UNCI (United Nations Commission for Indonesia)</li>
+                        </ul>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg mt-4">
+                            <h4 class="font-bold text-blue-800 mb-3">📅 Kronologi Peristiwa:</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">23 Agt 1949:</span>
+                                    <span>Pembukaan KMB di Den Haag, Belanda</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">Sep 1949:</span>
+                                    <span>Perundingan intensif tentang bentuk negara dan kedaulatan</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">Okt 1949:</span>
+                                    <span>Negosiasi masalah Irian Barat dan utang Hindia Belanda</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">2 Nov 1949:</span>
+                                    <span>Penandatanganan hasil KMB</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">27 Des 1949:</span>
+                                    <span>Penyerahan kedaulatan di Istana Dam, Amsterdam</span>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-semibold text-blue-700 w-24">27 Des 1949:</span>
+                                    <span>Upacara penyerahan kedaulatan di Istana Merdeka, Jakarta</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Hasil Konferensi:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Belanda mengakui kedaulatan RIS per 27 Desember 1949</li>
+                            <li>Pembentukan Uni Indonesia-Belanda</li>
+                            <li>Masalah Irian Barat ditunda selama satu tahun</li>
+                            <li>Indonesia menanggung utang Hindia Belanda</li>
+                        </ul>
+                        
+                        <div class="bg-yellow-50 p-4 rounded-lg mt-4 border border-yellow-200">
+                            <p class="text-yellow-800"><strong>🎉 Kemerdekaan Penuh:</strong> KMB menandai berakhirnya penjajahan Belanda dan dimulainya era Indonesia sebagai negara yang sepenuhnya merdeka dan berdaulat.</p>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        // Filter functionality
+        function filterEvents(category) {
+            const events = document.querySelectorAll('.timeline-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active', 'bg-red-600', 'text-white'));
+            event.target.classList.add('active', 'bg-red-600', 'text-white');
+            
+            // Filter events
+            events.forEach(event => {
+                if (category === 'all' || event.classList.contains(category)) {
+                    event.style.display = 'block';
+                } else {
+                    event.style.display = 'none';
+                }
+            });
+        }
+
+        // Modal functionality
+        function openModal(eventId) {
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            if (modalData[eventId]) {
+                modalBody.innerHTML = modalData[eventId].content;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Scroll to timeline
+        function scrollToTimeline() {
+            document.getElementById('timeline').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialize filter buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstButton = document.querySelector('.filter-btn');
+            firstButton.classList.add('bg-red-600', 'text-white');
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977420a3c3e8df97',t:'MTc1NjU1NTIyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
